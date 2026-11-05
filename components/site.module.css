@@ -1,0 +1,135 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  backdrop-filter: saturate(180%) blur(12px);
+}
+
+.nav {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.logo:hover {
+  color: var(--ink);
+}
+
+.navLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px;
+}
+
+.navLink {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--ink-2);
+  text-decoration: none;
+  white-space: nowrap;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.navLink:hover {
+  color: var(--primary-hover);
+}
+
+.navCta {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  border: 1.5px solid var(--primary);
+  border-radius: 10px;
+  padding: 11px 20px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.navCta:hover {
+  color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+/* 좁은 화면: 로고와 메뉴가 한 줄에 들어가도록 간격만 줄인다 */
+@media (max-width: 480px) {
+  .nav {
+    padding: 10px 16px;
+    gap: 8px;
+  }
+  .logo {
+    font-size: 19px;
+  }
+  .navLinks {
+    gap: 12px;
+  }
+  .navLink {
+    font-size: 14px;
+  }
+  .navCta {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+.footer {
+  background: #ffffff;
+  border-top: 1px solid var(--line);
+}
+
+.footerInner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.footerLogo {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.footerMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--muted);
+}
+
+.footerLink {
+  color: var(--ink-2);
+  font-weight: 400;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.footerMail {
+  color: var(--ink-2);
+}

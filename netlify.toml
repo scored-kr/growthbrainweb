@@ -1,0 +1,7 @@
+# Netlify는 Next.js를 자동 인식한다(@netlify/plugin-nextjs 자동 적용).
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
