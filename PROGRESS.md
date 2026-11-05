@@ -20,3 +20,15 @@
 - 이메일은 소문자·공백 제거 후 저장, 대소문자 중복은 DB 인덱스가 막음(409 → "이미 신청된 이메일입니다.")
 - 360px 줄바꿈: 시안 nowrap 외에 히어로 서브카피, 쓸수록 서브카피, 대기 신청 서브카피, 공감·이런 분께 리스트 끝 단어, 사용 방법 03, 마지막 CTA, 동의 라벨에 nowrap 묶음 추가
 - 모바일(≤480px) 헤더: 로고·메뉴가 한 줄에 들어가도록 글자 크기·간격만 축소
+
+## 2차 — 분석 (PostHog, Meta Pixel)
+파일
+- `components/Analytics.tsx` (레이아웃에 1회 마운트), `lib/analytics.ts`, `package.json`(posthog-js)
+
+메모
+- 키가 비어 있으면 posthog-js를 import하지 않고 Pixel 스크립트도 렌더하지 않음 (`NEXT_PUBLIC_*`는 빌드 시 박히므로 키 입력 후 재배포 필요)
+- PostHog는 hydration 이후 동적 import, Pixel은 `next/script` afterInteractive
+- 세션 녹화 `maskAllInputs: true` + 이메일 입력칸 `ph-no-capture`
+- 이벤트: section_view(50% 이상 또는 화면 절반 이상 차지 시 1회), cta_click(header/hero/final_cta), form_start(첫 입력 1회), form_submit(ai_tools, has_other — 저장 성공 시), form_error(reason), faq_open(question)
+- Pixel: PageView(로드 시), Lead(신청 성공 시)
+- 이메일은 어떤 이벤트에도 넣지 않음

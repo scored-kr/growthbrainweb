@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import Analytics from "@/components/Analytics";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -48,6 +49,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko" className={nexon.variable}>
       <body>
         {children}
+        {/* PostHog·Meta Pixel — 키가 없으면 아무것도 로드하지 않음 */}
+        <Analytics />
       </body>
     </html>
   );
