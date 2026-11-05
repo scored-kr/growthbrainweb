@@ -6,6 +6,10 @@
 ## 0. 지금 바로 (보안)
 - [ ] **OpenAI API 키 폐기·재발급** — 이번 작업 중 `.env.local` 파일이 채팅에 첨부되면서 키 값이 노출됨. platform.openai.com > API keys 에서 기존 키 Revoke → 새로 발급 → 사용 한도(Usage limits) 설정. 앱 코드는 이 키를 쓰지 않으므로 Netlify에는 넣지 않아도 됨.
 
+## 0-1. (선택) 작업 환경 네트워크 열기
+- [ ] 이번 클라우드 작업 환경은 npm 레지스트리 접속이 막혀 있어서 `next build`를 직접 못 돌렸음. claude.ai/code 세션 제목 옆 환경 메뉴 → Edit → Network access 에서 `registry.npmjs.org` 허용(또는 더 넓은 수준 선택)하면, 다음 세션에서 빌드·타입체크·Lighthouse까지 돌려서 확인 가능
+- [ ] 허용 안 해도 Netlify가 배포 때 빌드함. 첫 배포 로그(Deploys > 해당 배포 > Deploy log)에 빌드 에러가 있으면 그 로그를 클로드 코드에 붙여넣기
+
 ## 1. 문의 이메일 정하기 (링크 공개 전 필수)
 - [ ] 문의 이메일 주소를 정해서 알려주기 → `lib/site.ts`의 `CONTACT_EMAIL` 한 줄만 바꾸면 푸터·/privacy·llms.txt에 같이 반영됨
   - 지금은 `[문의 이메일]`이 그대로 보임. 개인정보처리방침 9항(보호책임자 연락처)에 필요하므로 링크 공개 전에 꼭 채울 것

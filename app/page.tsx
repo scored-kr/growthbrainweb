@@ -15,6 +15,7 @@ import {
   TwoChats,
 } from "@/components/icons";
 import type { ComponentType, ReactNode } from "react";
+import { landingJsonLd } from "@/lib/jsonld";
 import styles from "./page.module.css";
 
 type IconItem = { Icon: ComponentType<{ className?: string }>; text: ReactNode };
@@ -60,6 +61,11 @@ function IconList({ items }: { items: IconItem[] }) {
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        // JSON 안의 "<"를 이스케이프해 스크립트 태그 탈출 방지
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(landingJsonLd()).replace(/</g, "\\u003c") }}
+      />
       <SiteHeader />
       <main>
         {/* 히어로 */}
