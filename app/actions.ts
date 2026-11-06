@@ -77,7 +77,9 @@ export async function submitWaitlist(input: WaitlistInput): Promise<WaitlistResu
 
     let code: string | undefined;
     try {
-      code = ((await res.json()) as { code?: string }).code;
+      const value: unknown = ((await res.json()) as { code?: unknown }).code;
+      // 외부 응답의 임의 텍스트를 로그에 남기지 않는다.
+      if (typeof value === "string" && /^(?:[0-9A-Z]{5}|PGRST[0-9]{3})$/.test(value)) code = value;
     } catch {
       code = undefined;
     }
@@ -87,7 +89,10 @@ export async function submitWaitlist(input: WaitlistInput): Promise<WaitlistResu
     console.error("waitlist insert failed", res.status, code ?? "");
     return fail("server");
   } catch (err) {
-    console.error("waitlist insert error", err instanceof Error ? err.name : "unknown");
+    const kind = err instanceof Error
+      ? (["TimeoutError", "AbortError"].includes(err.name) ? err.name : "Error")
+      : "unknown";
+    console.error("waitlist insert error", kind);
     return fail("server");
   }
 }

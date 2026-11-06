@@ -45,3 +45,19 @@
   - 확인 방법: React 없이 TSX를 직접 렌더한 미리보기 HTML + Chromium (실제 next build 아님)
 - 못 함: `npm install`·`next build`·Lighthouse — 작업 환경 네트워크 정책이 npm 레지스트리를 막아서. 첫 실제 빌드는 Netlify 배포 때 이뤄짐
 - 남은 문제: 폰트 woff 3종이 각 430~460KB(한글 전체 글리프). Lighthouse Performance가 90에 못 미치면 woff2 변환·서브셋이 1순위 개선점
+
+## 2026-11-06 실제 Next.js 실행 기반 보완
+
+기존 1~3차 구현은 유지하고 다음 파일을 단계별로 보완·검증한다.
+- 1차: `AGENTS.md`, `package.json`, `package-lock.json`, `tests/waitlist.test.cjs`, `tests/attribution.test.cjs`, 폼·유입 정보 코드(실제 결함 발견 시), `TODO_대표.md`.
+- 2차: `components/Analytics.tsx`, `lib/analytics.ts`, `tests/analytics*.cjs` — 노출 기준·중복 이벤트·SDK 오류 격리.
+- 3차: `tests/seo.test.cjs`, 필요 시 폰트 성능 개선, Lighthouse 및 실제 브라우저 검증 기록.
+- 현재 저장소에 AGENTS.md가 없어 CLAUDE.md의 규칙을 Codex 진입점으로 정리했다. 원격은 `scored-kr/growthbrainweb`, 기존 브랜치는 `claude/new-session-hduyj3`이며 이 브랜치로 작업을 계속한다.
+
+### 1차 보완 결과
+- `AGENTS.md`와 개발 실행 안내(`START.md`) 추가·정리, 외부 설정 순서와 오래된 네트워크 차단 안내를 `TODO_대표.md`에서 갱신.
+- Next.js 15.5.4 → 15.5.29 (메이저 유지). 전이 의존성 PostCSS 8.5.32, Sharp 0.35.5를 npm overrides로 고정해 확인된 취약점 패치. `package-lock.json`과 `npm test` 실행기를 추가.
+- Supabase 오류 코드와 예외 이름을 허용된 형식으로 제한해 외부 오류 텍스트에 이메일이 있어도 로그에 남지 않도록 보완.
+- 폼/유입 단위 회귀 테스트 17개 통과(저장 mock, 실제 외부 요청 없음). 실제 브라우저에서 키 누락 오류, 이메일/동의 검증, 주요 5개 경로 응답 통과.
+- 실제 Next.js 화면의 360/768/1024/1440px 가로 스크롤 없음, H1 1개/본문 섹션 10개, 사용 방법 카드 높이 일치. 사전 개발 dry-run 성공 흐름도 확인.
+- `npm audit --omit=dev`: 알려진 취약점 0개. 실제 Supabase 저장·권한 검증 및 Netlify 배포는 대표의 설정 후 진행.

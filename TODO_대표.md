@@ -1,14 +1,16 @@
 # 대표가 직접 할 일 (순서대로)
 
-> 코드는 1~3차 모두 들어가 있음. 아래는 외부 대시보드·계정 작업만.
+> 코드는 1~3차 모두 들어가 있음. 아래는 대표의 확인과 외부 대시보드·계정 작업 순서다.
 > 비밀 키는 이 파일·코드·커밋 어디에도 적지 말 것. Netlify 환경변수와 로컬 `.env.local`에만.
 
 ## 0. 지금 바로 (보안)
-- [ ] **OpenAI API 키 폐기·재발급** — 이번 작업 중 `.env.local` 파일이 채팅에 첨부되면서 키 값이 노출됨. platform.openai.com > API keys 에서 기존 키 Revoke → 새로 발급 → 사용 한도(Usage limits) 설정. 앱 코드는 이 키를 쓰지 않으므로 Netlify에는 넣지 않아도 됨.
+- [ ] **OpenAI API 키 폐기·재발급** — 이전 작업 기록에 `.env.local` 첨부로 키가 노출됐다고 적혀 있음. 아직 처리하지 않았다면 폐기·재발급할 것. 이번 작업에서는 키 값을 열거나 출력하지 않았음. platform.openai.com > API keys 에서 기존 키 Revoke → 새로 발급 → 사용 한도(Usage limits) 설정. 앱 코드는 이 키를 쓰지 않으므로 Netlify에는 넣지 않아도 됨.
 
-## 0-1. (선택) 작업 환경 네트워크 열기
-- [ ] 이번 클라우드 작업 환경은 npm 레지스트리 접속이 막혀 있어서 `next build`를 직접 못 돌렸음. claude.ai/code 세션 제목 옆 환경 메뉴 → Edit → Network access 에서 `registry.npmjs.org` 허용(또는 더 넓은 수준 선택)하면, 다음 세션에서 빌드·타입체크·Lighthouse까지 돌려서 확인 가능
-- [ ] 허용 안 해도 Netlify가 배포 때 빌드함. 첫 배포 로그(Deploys > 해당 배포 > Deploy log)에 빌드 에러가 있으면 그 로그를 클로드 코드에 붙여넣기
+## 0-1. 코드·검증 상태 (2026-11-06)
+- 저장소: https://github.com/scored-kr/growthbrainweb
+- 작업 브랜치: `claude/new-session-hduyj3` (현재 클라우드의 로컬 브랜치 이름은 `work`)
+- npm 네트워크와 Node.js 22 설치는 완료됐다. 이전의 네트워크 허용 작업은 더 이상 필요 없다.
+- 실제 빌드·타입 검사·로컬 브라우저·회귀 테스트 결과는 `PROGRESS.md`에 기록한다. 실제 서비스 연결 결과와 모의 검증 결과는 구분한다.
 
 ## 1. 문의 이메일 정하기 (링크 공개 전 필수)
 - [ ] 문의 이메일 주소를 정해서 알려주기 → `lib/site.ts`의 `CONTACT_EMAIL` 한 줄만 바꾸면 푸터·/privacy·llms.txt에 같이 반영됨
@@ -41,7 +43,7 @@
 - [ ] PostHog Settings > Session replay 켜기
 - [ ] PostHog에서 퍼널 만들기: `section_view (section=hero)` → `section_view (section=how)` → `section_view (section=waitlist)` → `form_start` → `form_submit`
 - [ ] 도슨티에 확인: 우리 Pixel을 쓸지, 대행사 Pixel ID를 받을지 → ID를 `NEXT_PUBLIC_META_PIXEL_ID`에 입력 → 재배포
-- [ ] 그 다음 클로드 코드에 "키 넣었어. TODO_대표.md에 남긴 체크리스트 확인해" 보내기
+- [ ] 그 다음 작업 에이전트에 "키 넣었어. TODO_대표.md에 남긴 체크리스트 확인해" 보내기
 
 ## 5. 3차 — 도메인
 - [ ] Netlify > Domain management > Add domain `growthbrain.co.kr` → 안내되는 DNS 레코드를 도메인 업체(가비아 등)에 입력 → HTTPS 인증서 자동 발급 대기

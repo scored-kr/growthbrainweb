@@ -1,14 +1,29 @@
-# 오늘 (외부 설정 없이 개발만)
+# 개발 시작
 
-1. 이 폴더를 클로드 코드에서 연다 (GitHub 리포에 올려서 열어도 되고, 로컬 폴더로 열어도 됨)
-2. 아래 첫 메시지를 그대로 보낸다
+Node.js 22를 사용한다. `AGENTS.md`, `HANDOFF.md`, `PROGRESS.md`를 읽는다.
 
-> CLAUDE.md와 HANDOFF.md 읽고 1차부터 3차까지 코드로 끝까지 구현해. Supabase·PostHog·Pixel 키는 아직 없으니까 CLAUDE.md 규칙대로 값 없을 때 안전하게 동작하게 만들고 멈추지 말고 진행해. 내가 직접 해야 하는 건 TODO_대표.md에 순서대로 정리하고, 단계마다 커밋하고 보고해.
+```bash
+npm ci
+npm test
+npm run typecheck
+WAITLIST_DRY_RUN=1 npm run dev
+```
 
-# 내일 (15분)
+`WAITLIST_DRY_RUN=1`은 개발 모드에서 실제 저장 없이 성공 UI를 확인하는 용도다. 값이 없고 Supabase도 설정되지 않았다면 폼은 지정된 저장 오류를 보여준다. PostHog·Pixel 키가 없으면 외부 스크립트를 로드하지 않는다.
 
-클로드 코드가 만든 TODO_대표.md 순서대로 하면 된다. 대략 이 순서:
-1. Supabase 새 프로젝트 (리전 Seoul) → SQL Editor에 supabase/waitlist.sql 실행
-2. GitHub 리포 → Netlify Import → Netlify 환경변수 입력
-3. 클로드 코드에 "키 넣었어. TODO_대표.md에 남긴 체크리스트 확인해" 보내기
-4. 배포 주소에서 테스트 등록 1건 → Supabase 테이블에 들어왔는지 확인
+프로덕션 확인 시 실행 중인 개발 서버를 종료하고 다음을 실행한다.
+
+```bash
+npm run build
+npm run start
+```
+
+production에서는 `WAITLIST_DRY_RUN`을 무시한다. 실제 저장은 Supabase 설정이 필요하며 비밀키는 서버 환경변수에만 둔다. 예시는 `.env.example`을 참고하고 실제 `.env.local`은 커밋하지 않는다.
+
+# 배포 준비
+
+저장소: https://github.com/scored-kr/growthbrainweb
+
+작업 브랜치: `claude/new-session-hduyj3`
+
+`TODO_대표.md` 순서대로 문의 이메일, Supabase, Netlify, 분석, 도메인을 설정한다. 키를 넣은 뒤 재배포하고 실제 저장·이벤트 수신을 확인한다. 단계별 코드 작업과 로컬 검증 결과는 `PROGRESS.md`에 기록한다.
