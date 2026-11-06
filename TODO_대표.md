@@ -12,9 +12,9 @@
 - npm 네트워크와 Node.js 22 설치는 완료됐다. 이전의 네트워크 허용 작업은 더 이상 필요 없다.
 - 실제 빌드·타입 검사·로컬 브라우저·회귀 테스트 결과는 `PROGRESS.md`에 기록한다. 실제 서비스 연결 결과와 모의 검증 결과는 구분한다.
 
-## 1. 문의 이메일 정하기 (링크 공개 전 필수)
-- [ ] 문의 이메일 주소를 정해서 알려주기 → `lib/site.ts`의 `CONTACT_EMAIL` 한 줄만 바꾸면 푸터·/privacy·llms.txt에 같이 반영됨
-  - 지금은 `[문의 이메일]`이 그대로 보임. 개인정보처리방침 9항(보호책임자 연락처)에 필요하므로 링크 공개 전에 꼭 채울 것
+## 1. 문의 이메일 (확정 완료)
+- [x] `htk3694@naver.com`으로 확정하고 `lib/site.ts`의 `CONTACT_EMAIL`에 반영. 푸터·/privacy·llms.txt에서 공통 사용.
+- 나중에 주소를 바꾸면 상수 한 곳 수정 후 재배포하면 됨.
 
 ## 2. Supabase
 - [ ] supabase.com → New project, **Region: Northeast Asia (Seoul) ap-northeast-2**

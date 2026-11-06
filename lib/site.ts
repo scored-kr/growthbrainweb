@@ -9,8 +9,7 @@ export const SITE_URL = (
 ).replace(/\/+$/, "");
 
 // 문의 이메일 — 푸터, /privacy, llms.txt가 모두 이 상수 하나를 쓴다.
-// TODO(대표): 실제 문의 이메일로 교체 (TODO_대표.md 참고)
-export const CONTACT_EMAIL = "[문의 이메일]";
+export const CONTACT_EMAIL = "htk3694@naver.com";
 export const HAS_CONTACT_EMAIL = CONTACT_EMAIL.includes("@");
 
 export const SITE_TITLE = "Growth Brain — AI를 바꿔도 일이 이어지는 개인 업무 기억";
