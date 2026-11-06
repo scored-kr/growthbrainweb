@@ -1,8 +1,33 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { META_PIXEL_ID, POSTHOG_HOST, POSTHOG_KEY, posthogEnabled, setAnalyticsClient, track } from "@/lib/analytics";
+
+let posthogInitialization: Promise<void> | null = null;
+
+function initializePosthog() {
+  // Strict Mode의 effect 재실행 및 재마운트에도 PageView/초기화는 한 번만.
+  if (!posthogInitialization) {
+    posthogInitialization = import("posthog-js")
+      .then(({ default: posthog }) => {
+        posthog.init(POSTHOG_KEY, {
+          api_host: POSTHOG_HOST,
+          capture_pageview: true,
+          autocapture: false,
+          person_profiles: "identified_only",
+          disable_session_recording: false,
+          session_recording: { maskAllInputs: true },
+        });
+        setAnalyticsClient(posthog);
+      })
+      .catch(() => {
+        // 광고 차단/네트워크 실패가 페이지의 unhandled rejection이 되지 않게 한다.
+        posthogInitialization = null;
+      });
+  }
+  return posthogInitialization;
+}
 
 /**
  * PostHog·Meta Pixel 로더. 키가 비어 있으면 스크립트를 전혀 로드하지 않는다.
@@ -10,23 +35,11 @@ import { META_PIXEL_ID, POSTHOG_HOST, POSTHOG_KEY, posthogEnabled, setAnalyticsC
  * - CTA 클릭: [data-cta] 요소 클릭 시 cta_click
  */
 export default function Analytics() {
+  const seenSections = useRef(new Set<string>());
+
   useEffect(() => {
     if (!posthogEnabled) return;
-    let cancelled = false;
-    import("posthog-js").then(({ default: posthog }) => {
-      if (cancelled) return;
-      posthog.init(POSTHOG_KEY, {
-        api_host: POSTHOG_HOST,
-        capture_pageview: true,
-        person_profiles: "identified_only",
-        // 세션 녹화: 모든 입력값 마스킹(이메일 포함)
-        session_recording: { maskAllInputs: true },
-      });
-      setAnalyticsClient(posthog);
-    });
-    return () => {
-      cancelled = true;
-    };
+    void initializePosthog();
   }, []);
 
   useEffect(() => {
@@ -44,17 +57,16 @@ export default function Analytics() {
       observer = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
-            if (!entry.isIntersecting) continue;
-            // 화면보다 긴 섹션은 비율이 50%에 못 미치므로, 화면의 절반 이상을 채우면 노출로 본다
-            const enough =
-              entry.intersectionRatio >= 0.5 || entry.intersectionRect.height >= window.innerHeight * 0.5;
-            if (!enough) continue;
+            if (!entry.isIntersecting || entry.intersectionRatio < 0.5) continue;
             const section = entry.target.getAttribute("data-section");
-            if (section) track("section_view", { section });
+            if (section && !seenSections.current.has(section)) {
+              seenSections.current.add(section);
+              track("section_view", { section });
+            }
             observer?.unobserve(entry.target);
           }
         },
-        { threshold: [0, 0.25, 0.5, 0.75, 1] },
+        { threshold: 0.5 },
       );
       document.querySelectorAll("[data-section]").forEach((el) => observer?.observe(el));
     }
