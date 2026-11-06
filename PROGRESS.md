@@ -40,7 +40,7 @@
 - `app/llms.txt/route.ts` — HANDOFF는 `public/llms.txt`지만, 사이트 URL·문의 이메일 상수를 같이 쓰려고 정적 라우트로 생성(`/llms.txt`로 똑같이 응답, 빌드 시 정적 생성)
 - `public/logo.png` (Organization logo용 임시 512px, 로고 나오면 교체)
 
-## 이 환경에서 확인한 것 / 못 한 것
+## 이전 구현 환경의 검증 기록 (아래 2026-11-06 결과로 보완됨)
 - 확인: 360/390/768/1024/1440px 가로 스크롤 없음, 헤드라인·말풍선 한 단어 줄바꿈 없음, 사용 방법 카드 높이 동일·텍스트 세로 가운데(오차 ≤1px), 무엇이 이어지나 표 값 데스크톱 한 줄, 헤더 높이(81px, 모바일 65px) < scroll-margin 96px, 서버 액션 분기(환경변수 없음·dry run·중복·형식·동의·honeypot·500·타임아웃), 로그에 이메일 없음, 섹션 노출·CTA 이벤트 발생
   - 확인 방법: React 없이 TSX를 직접 렌더한 미리보기 HTML + Chromium (실제 next build 아님)
 - 못 함: `npm install`·`next build`·Lighthouse — 작업 환경 네트워크 정책이 npm 레지스트리를 막아서. 첫 실제 빌드는 Netlify 배포 때 이뤄짐
@@ -67,3 +67,13 @@
 - PostHog 자동 폼 수집은 끄고 명시된 이벤트를 유지. 세션 녹화 입력값 마스킹 유지. SDK import/초기화 실패와 capture/Pixel 예외를 격리해 폼 결과에 영향을 주지 않음.
 - `tests/analytics.test.cjs` 7개 통과: 빈 키, 이벤트 큐, 50% 노출·중복 방지, Strict Mode, 분석 SDK 실패, Pixel Lead 인수 확인. 실제 외부 분석 서버를 호출하지 않는 격리 테스트.
 - 키 없이 외부 분석 스크립트를 로드하지 않는 동작은 유지. PostHog 대시보드·실제 녹화와 Meta PageView/Lead 수신은 키 입력 후 검증해야 함.
+
+### 3차 보완 결과 / 최종 실행 검증
+- `tests/seo.test.cjs` 5개 통과: JSON-LD의 Organization/WebSite/SoftwareApplication/FAQPage 연결, 화면 FAQ와 스키마 일치, 사이트 URL, sitemap, 주요 AI 크롤러 허용, llms.txt.
+- Node.js 22.23.4에서 `npm ci`, `npm test` 총 29개(실패·스킵 0), `npm run build` 정적 페이지 11개 생성, `npm run typecheck` 통과. `git diff --check` 통과.
+- 최종 프로덕션 브라우저 검증: OG ko_KR, Twitter 이미지, canonical(/ 및 /privacy), OG 1200×630 / Apple icon 180×180 PNG, CTA 3개→#waitlist 이동 후 헤더에 가리지 않음, 동의 자세히 4줄, AI 다중 선택·기타 자동 체크, FAQ 열림, 키 없이 PostHog/Pixel 요청 0건 통과.
+- Lighthouse 13.6.0 모바일 기본 시뮬레이션, 로컬 프로덕션 `npm run start`, 2026-11-06 10:34 KST: **Performance 93 / Accessibility 100 / SEO 100**. FCP/LCP 0.9s, TBT 330ms, CLS 0. 이전 측정 97/100/100과 변동은 있으나 최종 측정도 요구된 90+ 통과.
+- 보고서·브라우저 검증 로그는 현재 클라우드의 `/workspace/.growthbrain-validation/`에 보관. Lighthouse는 실제 배포·외부 분석 스크립트 활성화 후 재측정 필요.
+- 공개 도메인의 리치 결과 테스트, 카카오톡/스레드 공유, 실제 Supabase 저장·RLS·분석 대시보드 수신은 실행하지 않음. 대표의 외부 설정 후 확인할 작업을 `TODO_대표.md`에 유지.
+- 최종 개발 서버(`WAITLIST_DRY_RUN=1 npm run dev`)에서도 5개 경로와 신청 성공 UI를 실제 브라우저로 재확인. 페이지 오류 0개. 개발 서버를 실행해 둠.
+- 기존 클라우드 환경 초안의 설치/시작 지침도 새 잠금 파일의 `npm ci`와 `npm test` 기준으로 갱신. 환경 게시와 Netlify 배포는 수행하지 않음.

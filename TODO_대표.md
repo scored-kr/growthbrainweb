@@ -59,6 +59,6 @@
 - [ ] PostHog 이벤트 전부 들어옴(section_view, cta_click, form_start, form_submit, form_error, faq_open), 퍼널 생성, 세션 녹화에서 이메일 칸 마스킹 확인
 - [ ] Pixel PageView·Lead 확인 (Meta Events Manager > Test events)
 - [ ] OG 이미지 카카오톡·스레드 공유 미리보기 확인 (카카오는 developers.kakao.com/tool/debugger/sharing 에서 캐시 초기화)
-- [ ] Lighthouse 모바일 Performance·SEO·Accessibility 90+ (배포 주소로 PageSpeed Insights 실행)
+- [ ] 배포 주소로 Lighthouse/PageSpeed Insights 모바일 재검증 — 로컬 최종 프로덕션 빌드는 Performance 93 · Accessibility 100 · SEO 100 통과. 외부 분석 키를 넣은 뒤 성능은 다시 측정할 것
 - [ ] JSON-LD 유효성: search.google.com/test/rich-results 에 배포 주소 입력
-- [ ] sitemap.xml · robots.txt · llms.txt 응답 확인
+- [ ] 배포 도메인의 sitemap.xml · robots.txt · llms.txt 응답 확인 (로컬 응답·내용 검증은 완료)
