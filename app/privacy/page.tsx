@@ -4,14 +4,14 @@ import type { Metadata } from "next";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { renderMarkdown } from "@/lib/markdown";
-import { CONTACT_EMAIL } from "@/lib/site";
+import { CONTACT_EMAIL, SOCIAL_IMAGE } from "@/lib/site";
 import styles from "./privacy.module.css";
 
 export const metadata: Metadata = {
   title: "개인정보처리방침 — Growth Brain",
   description: "Growth Brain 베타 대기 신청자의 개인정보 처리방침입니다.",
   alternates: { canonical: "/privacy" },
-  openGraph: { url: "/privacy" },
+  openGraph: { url: "/privacy", images: [SOCIAL_IMAGE] },
 };
 
 export default async function PrivacyPage() {

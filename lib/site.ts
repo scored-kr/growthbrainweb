@@ -13,6 +13,13 @@ export const CONTACT_EMAIL = "htk3694@naver.com";
 export const HAS_CONTACT_EMAIL = CONTACT_EMAIL.includes("@");
 
 export const SITE_TITLE = "Growth Brain — AI를 바꿔도 일이 이어지는 개인 업무 기억";
+export const SOCIAL_IMAGE = {
+  url: "https://growthbrain.co.kr/og.png",
+  width: 1200,
+  height: 630,
+  type: "image/png",
+  alt: "Growth Brain — 오늘도 AI에게 똑같은 내용을 설명하고 계신가요?",
+};
 export const SITE_DESCRIPTION =
   "ChatGPT와 Claude를 오갈 때마다 처음부터 다시 설명하지 마세요. 현재 상태·결정과 이유·다음 할 일을 저장하고 다른 AI에서 바로 이어서 작업합니다. 베타 대기 신청 중.";
 

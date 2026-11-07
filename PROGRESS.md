@@ -82,3 +82,11 @@
 - 사용자 지정 `htk3694@naver.com`을 `lib/site.ts`에 반영하고 `TODO_대표.md`에서 이메일 확정을 완료 처리.
 - 확인 대상: 푸터 메일 링크, /privacy 본문, /llms.txt 문의 주소.
 - SEO 회귀 테스트 5개 및 실행 중인 개발 서버의 홈·/privacy·/llms.txt 이메일 표시 검증 통과. 홈·개인정보 페이지의 mailto 링크 확인.
+
+### 2026-11-07 카카오톡 공유 이미지 정적화
+- 변경 계획: 기존 `app/opengraph-image.tsx`의 현재 렌더 결과를 `public/og.png`로 저장한 뒤 동적 이미지 경로를 제거.
+- OG/Twitter 메타데이터를 `https://growthbrain.co.kr/og.png`로 명시. 홈·개인정보 페이지의 메타데이터와 PNG 크기/용량을 빌드 후 검증.
+- 원본 생성 응답과 `public/og.png`의 SHA-256이 동일함. PNG 1200×630, 54,694바이트로 1MB 이하 조건 통과.
+- `app/opengraph-image.tsx` 제거. `lib/site.ts`의 공통 이미지 정보를 루트 OG/Twitter와 /privacy OG 메타데이터에 지정(/privacy의 openGraph 덮어쓰기 고려).
+- SEO 테스트 5개, 프로덕션 빌드(정적 페이지 10개), 타입 검사 통과. 로컬 프로덕션 서버에서 카카오톡/Twitter/일반 브라우저 User-Agent별 홈·/privacy의 og:image와 twitter:image가 요청한 절대 URL로 정확히 1개씩 출력됨. 기존 /opengraph-image 참조 없음.
+- `/og.png`: HTTP 200, Content-Type image/png, 크기·용량 및 파일 일치 확인. 실제 공개 배포/카카오 캐시 갱신 결과는 미확인. 배포 후 캐시 초기화 순서를 TODO_대표.md에 기록.

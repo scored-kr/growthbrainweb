@@ -58,7 +58,7 @@
 - [ ] Supabase 리전 서울, RLS 켜짐, anon 키로 insert 안 됨 (anon 키로 insert 시도 → 401/403 이어야 정상)
 - [ ] PostHog 이벤트 전부 들어옴(section_view, cta_click, form_start, form_submit, form_error, faq_open), 퍼널 생성, 세션 녹화에서 이메일 칸 마스킹 확인
 - [ ] Pixel PageView·Lead 확인 (Meta Events Manager > Test events)
-- [ ] OG 이미지 카카오톡·스레드 공유 미리보기 확인 (카카오는 developers.kakao.com/tool/debugger/sharing 에서 캐시 초기화)
+- [ ] 최신 커밋 배포 후 `https://growthbrain.co.kr/og.png`가 열리는지 확인 → 카카오 공유 디버거(`https://developers.kakao.com/tool/debugger/sharing`)에서 사이트 URL 캐시 초기화 → 카카오톡·스레드 공유 미리보기 재확인. OG/Twitter는 정적 PNG(1200×630, 54,694바이트)를 사용.
 - [ ] 배포 주소로 Lighthouse/PageSpeed Insights 모바일 재검증 — 로컬 최종 프로덕션 빌드는 Performance 93 · Accessibility 100 · SEO 100 통과. 외부 분석 키를 넣은 뒤 성능은 다시 측정할 것
 - [ ] JSON-LD 유효성: search.google.com/test/rich-results 에 배포 주소 입력
 - [ ] 배포 도메인의 sitemap.xml · robots.txt · llms.txt 응답 확인 (로컬 응답·내용 검증은 완료)
